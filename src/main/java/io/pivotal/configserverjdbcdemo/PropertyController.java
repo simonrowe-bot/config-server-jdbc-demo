@@ -23,10 +23,12 @@ public class PropertyController {
     private PropertyRepository propertyRepository;
 
 
-    @PostMapping(value = "/{application}/{profile}")
+    @PostMapping(value = "/{filename}")
     public ResponseEntity uploadPropertes(@RequestBody String input,
-                                          @PathVariable("application") String application,
-                                          @PathVariable("profile") final String profile) throws IOException {
+                                          @PathVariable("filename") String filename) throws IOException {
+        final String application = applicationName(filename);
+        final String profile = profileName(filename);
+
         Properties properties = PropertiesLoaderUtils.loadProperties(new ByteArrayResource(input.getBytes()));
         properties.entrySet().forEach(entry -> {
             final Property prop;
@@ -44,6 +46,26 @@ public class PropertyController {
         });
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    protected String profileName(String filename) {
+        String prefix = filename.substring(0, filename.indexOf("."));
+        String[] tokens = prefix.split("-");
+        if (tokens.length == 1) {
+            return "default";
+        }
+        return tokens[tokens.length - 1];
+
+    }
+
+    protected String applicationName(String filename) {
+        String prefix = filename.substring(0, filename.indexOf("."));
+        String[] tokens = prefix.split("-");
+        if (tokens.length == 1) {
+            return prefix;
+        } else {
+            return prefix.substring(0, prefix.lastIndexOf("-"));
+        }
     }
 
 

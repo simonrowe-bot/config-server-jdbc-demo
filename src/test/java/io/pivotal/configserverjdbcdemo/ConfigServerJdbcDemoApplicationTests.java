@@ -1,5 +1,6 @@
 package io.pivotal.configserverjdbcdemo;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,30 @@ public class ConfigServerJdbcDemoApplicationTests {
 
 	@Autowired
 	private WebTestClient webTestClient;
+
+	@Autowired
+	private PropertyRepository propertyRepository;
+
+	@Before
+	public void setup() {
+		if (!propertyRepository.findAll().iterator().hasNext()) {
+			Property property = new Property();
+			property.setApplication("app");
+			property.setPropertyKey("propertyKey");
+			property.setPropertyValue("propertyValue");
+			property.setProfile("default");
+			property.setLabel("master");
+			propertyRepository.save(property);
+
+			Property cloudProperty = new Property();
+			cloudProperty.setApplication("app");
+			cloudProperty.setPropertyKey("cloudPropertyKey");
+			cloudProperty.setPropertyValue("cloudPropertyValue");
+			cloudProperty.setProfile("cloud");
+			cloudProperty.setLabel("master");
+			propertyRepository.save(cloudProperty);
+		}
+	}
 
 	@Test
 	public void propertiesAreExposedCorrectly() {
