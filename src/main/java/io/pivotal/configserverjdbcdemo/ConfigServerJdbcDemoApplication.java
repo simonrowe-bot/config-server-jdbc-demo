@@ -1,6 +1,5 @@
 package io.pivotal.configserverjdbcdemo;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
@@ -28,26 +27,4 @@ public class ConfigServerJdbcDemoApplication {
 		return new JdbcEnvironmentRepositoryFactory(jdbcTemplate).build(jdbcEnvironmentProperties);
 	}
 
-	@Bean
-	public CommandLineRunner initProperties(PropertyRepository propertyRepository) {
-		return (args) -> {
-			if (!propertyRepository.findAll().iterator().hasNext()) {
-				Property property = new Property();
-				property.setApplication("app");
-				property.setPropertyKey("propertyKey");
-				property.setPropertyValue("propertyValue");
-				property.setProfile("default");
-				property.setLabel("master");
-				propertyRepository.save(property);
-
-				Property cloudProperty = new Property();
-				cloudProperty.setApplication("app");
-				cloudProperty.setPropertyKey("cloudPropertyKey");
-				cloudProperty.setPropertyValue("cloudPropertyValue");
-				cloudProperty.setProfile("cloud");
-				cloudProperty.setLabel("master");
-				propertyRepository.save(cloudProperty);
-			}
-		};
-	}
 }
