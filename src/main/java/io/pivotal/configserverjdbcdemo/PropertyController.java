@@ -17,6 +17,7 @@ import java.util.Properties;
 public class PropertyController {
 
     private static final String DEFAULT_PROFILE = "default";
+    private static final String DEFAULT_LABEL = "master";
 
 
     @Autowired
@@ -42,6 +43,7 @@ public class PropertyController {
                 prop.setPropertyKey((String) entry.getKey());
             }
             prop.setPropertyValue((String) entry.getValue());
+            prop.setLabel(DEFAULT_LABEL);
             propertyRepository.save(prop);
         });
 
