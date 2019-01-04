@@ -3,6 +3,11 @@ applications:
 - name: config-server-jdbc-demo
   memory: 1G
   instances: 1
+  routes:
+    - route: config-server-jdbc-demo.apps.internal
   path: ./target/config-server-jdbc-demo-0.0.1-SNAPSHOT.jar
   services:
   - config-server-db
+  env:
+    SPRING_SECURITY_USER_NAME: config
+    SPRING_SECURITY_USER_PASSWORD: pass123

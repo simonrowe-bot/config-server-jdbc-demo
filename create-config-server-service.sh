@@ -1,1 +1,1 @@
-cf create-user-provided-service jdbc-config-server -p '{"username":"config","password":"config" ,"url" : "https://config-server-jdbc-demo.cfapps.io"}'
+cf create-user-provided-service jdbc-config-server -p '{"username":"config","password":"pass123" ,"url" : "http://config-server-jdbc-demo.apps.internal:8080"}'
